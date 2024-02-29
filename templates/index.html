@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arab Countries Capitals</title>
+</head>
+<body>
+    <h2>Enter Arab Country:</h2>
+    <input type="text" id="countryInput" placeholder="Enter country name">
+    <br>
+    <button onclick="getCapital()">Get Capital</button>
+    <div id="capitalDisplay"></div>
+
+    <script>
+        function getCapital() {
+            var countryInput = document.getElementById('countryInput').value.trim();
+            var capitalDisplay = document.getElementById('capitalDisplay');
+
+            fetch('/get_capital', {
+                method: 'POST',
+                body: new URLSearchParams({ country: countryInput }),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            })
+            .then(response => response.text())
+            .then(data => {
+                capitalDisplay.innerHTML = data;
+            })
+            .catch(error => {
+                capitalDisplay.innerHTML = 'An error occurred while fetching data.';
+            });
+        }
+    </script>
+</body>
+</html>
